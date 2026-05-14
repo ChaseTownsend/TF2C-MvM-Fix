@@ -262,14 +262,14 @@ public void Ev_Game_PlayBroadcastAudio(Event event, const char[] name, bool dont
     return;
 }
 
-public void Event_OnUbercharge(Event event, const char[] name, bool dontBroadcast)
+public Action Event_OnUbercharge(Event event, const char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
 	if (IsMvMRobot(client)) {
 		StripStuckRobotInvulnerability(client);
 		return Plugin_Handled;
 	}
-	return;
+	return Plugin_Continue;
 }
 
 public void Timer_RestoreProgress(Handle timer, int client)
