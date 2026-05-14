@@ -210,7 +210,7 @@ void StripStuckRobotInvulnerability(int client)
 }
 
 
-public Action OnRoundStart(Event event, const char[] name, bool dontBroadcast)
+public void OnRoundStart(Event event, const char[] name, bool dontBroadcast)
 {
 	int entityTimer = FindEntityByClassname(-1, "team_round_timer");
 	if (entityTimer > -1)
@@ -218,10 +218,10 @@ public Action OnRoundStart(Event event, const char[] name, bool dontBroadcast)
 		SetVariantInt(StringToInt("1"));
 		AcceptEntityInput(entityTimer, "SetTime");
 	}
-    return Plugin_Continue;
+    return;
 }
 
-public Action OnPlayerDeath(Handle event, const char[] name, bool dontBroadcast)
+public void OnPlayerDeath(Handle event, const char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
 	char sKey[16];
@@ -234,10 +234,10 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dontBroadcast)
 			robotsMadMilkMap.Remove(sKey);
 		}
 	}
-    return Plugin_Continue;
+    return;
 }
 
-public Action Event_RoundRestart(Event event, const char[] name, bool dontBroadcast)
+public void Event_RoundRestart(Event event, const char[] name, bool dontBroadcast)
 {
 	for (int i = 1; i <= MaxClients; i++)
 	{
@@ -248,10 +248,10 @@ public Action Event_RoundRestart(Event event, const char[] name, bool dontBroadc
 			CreateTimer(0.1, Timer_RestoreProgress, i);
 		}
 	}
-    return Plugin_Continue;
+    return;
 }
 
-public Action Ev_Game_PlayBroadcastAudio(Event event, const char[] name, bool dontBroadcast)
+public void Ev_Game_PlayBroadcastAudio(Event event, const char[] name, bool dontBroadcast)
 {
 	char soundBroadcasted[128];
 	event.GetString("sound", soundBroadcasted, sizeof(soundBroadcasted));
@@ -259,20 +259,20 @@ public Action Ev_Game_PlayBroadcastAudio(Event event, const char[] name, bool do
 	if (StrEqual(soundBroadcasted, soundExpected)) {
 		JumpToWave(GetEntProp(FindEntityByClassname(-1, "tf_objective_resource"), Prop_Send, "m_nMannVsMachineWaveCount"));
 	}
-    return Plugin_Continue;
+    return;
 }
 
-public Action Event_OnUbercharge(Event event, const char[] name, bool dontBroadcast)
+public void Event_OnUbercharge(Event event, const char[] name, bool dontBroadcast)
 {
 	int client = GetClientOfUserId(GetEventInt(event, "userid"));
 	if (IsMvMRobot(client)) {
 		StripStuckRobotInvulnerability(client);
 		return Plugin_Handled;
 	}
-	return Plugin_Continue;
+	return;
 }
 
-public Action Timer_RestoreProgress(Handle timer, int client)
+public void Timer_RestoreProgress(Handle timer, int client)
 {
 	g_hConVarTFFastBuild.BoolValue = false;
 	if (IsClientInGame(client))
@@ -281,7 +281,7 @@ public Action Timer_RestoreProgress(Handle timer, int client)
 			TeleportEntity(client, g_PlayerPositions[client], g_PlayerAngles[client], NULL_VECTOR);
 		}
 	}
-    return Plugin_Continue;
+    return;
 }
 
 public void JumpToWave(int wave_number)
