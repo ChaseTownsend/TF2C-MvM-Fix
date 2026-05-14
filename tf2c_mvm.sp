@@ -218,6 +218,7 @@ public Action OnRoundStart(Event event, const char[] name, bool dontBroadcast)
 		SetVariantInt(StringToInt("1"));
 		AcceptEntityInput(entityTimer, "SetTime");
 	}
+    return Plugin_Continue;
 }
 
 public Action OnPlayerDeath(Handle event, const char[] name, bool dontBroadcast)
@@ -233,6 +234,7 @@ public Action OnPlayerDeath(Handle event, const char[] name, bool dontBroadcast)
 			robotsMadMilkMap.Remove(sKey);
 		}
 	}
+    return Plugin_Continue;
 }
 
 public Action Event_RoundRestart(Event event, const char[] name, bool dontBroadcast)
@@ -246,6 +248,7 @@ public Action Event_RoundRestart(Event event, const char[] name, bool dontBroadc
 			CreateTimer(0.1, Timer_RestoreProgress, i);
 		}
 	}
+    return Plugin_Continue;
 }
 
 public Action Ev_Game_PlayBroadcastAudio(Event event, const char[] name, bool dontBroadcast)
@@ -256,6 +259,7 @@ public Action Ev_Game_PlayBroadcastAudio(Event event, const char[] name, bool do
 	if (StrEqual(soundBroadcasted, soundExpected)) {
 		JumpToWave(GetEntProp(FindEntityByClassname(-1, "tf_objective_resource"), Prop_Send, "m_nMannVsMachineWaveCount"));
 	}
+    return Plugin_Continue;
 }
 
 public Action Event_OnUbercharge(Event event, const char[] name, bool dontBroadcast)
@@ -277,6 +281,7 @@ public Action Timer_RestoreProgress(Handle timer, int client)
 			TeleportEntity(client, g_PlayerPositions[client], g_PlayerAngles[client], NULL_VECTOR);
 		}
 	}
+    return Plugin_Continue;
 }
 
 public void JumpToWave(int wave_number)
